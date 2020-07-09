@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Animated, View, StyleSheet, PanResponder, Image} from "react-native";
+import { Animated, View, StyleSheet, PanResponder, Image } from "react-native";
 
 //Card component
 import CardData from './CardData';
