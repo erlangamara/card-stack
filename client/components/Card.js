@@ -31,7 +31,7 @@ class Card extends Component {
     this.state = { 
       cardsPan: new Animated.ValueXY(),
       cardsStackedAnim: new Animated.Value( 0 ),
-      currentIndex: 0
+      currentIndex: 0,
     }
   }
 
@@ -55,16 +55,16 @@ class Card extends Component {
         useNativeDriver: false,
       } ).start();
 
-      Animated.timing( this.state.cardsStackedAnim, {
-        toValue: 1,
-        duration: 300,
-        useNativeDriver: false,
-      } ).start( () => {
-        this.state.cardsStackedAnim.setValue( 0 );
-        this.setState({
-          currentIndex: this.state.currentIndex + 1,
-        });
-      } );
+        Animated.timing( this.state.cardsStackedAnim, {
+          toValue: 1,
+          duration: 300,
+          useNativeDriver: false,
+        } ).start( () => {
+          this.state.cardsStackedAnim.setValue( 0 );
+          this.setState({
+            currentIndex: this.state.currentIndex + 1,
+          });
+        } );
     },
   } )
 
@@ -85,8 +85,8 @@ class Card extends Component {
           opacity: this.state.cardsStackedAnim.interpolate({
             inputRange: [ 0, 1 ], outputRange: [ 0.3, 0.6 ] })
         }}>
-          <View style={styles.chipContainer}>
-            <Image source={qrCode} resizeMode="stretch" style={styles.chip} />
+          <View style={styles.qrCodeContainer}>
+            <Image source={qrCode} resizeMode="stretch" style={styles.qrCode} />
           </View>
           <CardData 
             cardHolderName={cardHolder[(this.state.currentIndex + 2) % 3].name} 
@@ -107,8 +107,8 @@ class Card extends Component {
           opacity: this.state.cardsStackedAnim.interpolate({
             inputRange: [ 0, 1 ], outputRange: [ 0.6, 1 ] }),
         }}>
-          <View style={styles.chipContainer}>
-            <Image source={qrCode} resizeMode="stretch" style={styles.chip} />
+          <View style={styles.qrCodeContainer}>
+            <Image source={qrCode} resizeMode="stretch" style={styles.qrCode} />
           </View>
           <CardData 
             cardHolderName={cardHolder[(this.state.currentIndex + 1) % 3].name} 
@@ -132,8 +132,8 @@ class Card extends Component {
               inputRange: [ 0, 1 ], outputRange: [ 1, 0.80 ] }) },
           ],
         }}>
-          <View style={styles.chipContainer}>
-            <Image source={qrCode} resizeMode="stretch" style={styles.chip} />
+          <View style={styles.qrCodeContainer}>
+            <Image source={qrCode} resizeMode="stretch" style={styles.qrCode} />
           </View>
           <CardData 
             cardHolderName={cardHolder[this.state.currentIndex % 3].name} 
@@ -166,15 +166,15 @@ const styles = StyleSheet.create({
     elevation: 5
   },
 
-  chipContainer: {
+  qrCodeContainer: {
     alignItems: "flex-end",
     justifyContent: "center",
     height: 100,
     padding: 20
   },
 
-  chip: {
-    height: 55,
+  qrCode: {
+    height: 60,
     width: 70
   }
 })
