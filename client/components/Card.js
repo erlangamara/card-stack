@@ -1,7 +1,26 @@
 import React, { Component } from "react";
-import { Animated, View, StyleSheet, PanResponder} from "react-native";
+import { Animated, View, StyleSheet, PanResponder, Image} from "react-native";
 
-const colors = ['#5C6BC0', '#009688', '#F44336'];
+import CardData from './CardData';
+
+import qrCode from '../assets/qr-code.png';
+
+const colors = ['#5C6BC0', '#009688', '#f85959'];
+
+const cardHolder = [
+  {
+    name: 'Foo Bar',
+    cardNumber: '012345'
+  },
+  {
+    name: 'Foo Baz',
+    cardNumber: '054321'
+  },
+  {
+    name: 'John Doe',
+    cardNumber: '013567'
+  },
+];
 
 class Card extends Component {
 
@@ -48,9 +67,10 @@ class Card extends Component {
   render () {
     return (
       <View style={styles.cardContainer}>
-        <Animated.View style={{
-          width: 300, height: 150,
-          position: 'absolute',
+        <Animated.View 
+        {...styles.cardStyle} 
+        style={{
+          backgroundColor: colors[(this.state.currentIndex + 2) % 3],
           zIndex: 1,
           bottom: this.state.cardsStackedAnim.interpolate({
             inputRange: [ 0, 1 ], outputRange: [ 40, 20 ] }),
@@ -58,18 +78,20 @@ class Card extends Component {
             scale: this.state.cardsStackedAnim.interpolate({
               inputRange: [ 0, 1 ], outputRange: [ 0.80, 0.90 ] })
           }],
-          backgroundColor: colors[(this.state.currentIndex + 2) % 3],
           opacity: this.state.cardsStackedAnim.interpolate({
-            inputRange: [ 0, 1 ], outputRange: [ 0.3, 0.6 ] }),
-          transform: [ { scale: 0.80 } ]
+            inputRange: [ 0, 1 ], outputRange: [ 0.3, 0.6 ] })
         }}>
+          <View style={styles.chipContainer}>
+            <Image source={qrCode} resizeMode="stretch" style={styles.chip} />
+          </View>
+          <CardData 
+            cardHolderName={cardHolder[(this.state.currentIndex + 2) % 3].name} 
+            cardHolderNumber={cardHolder[(this.state.currentIndex + 2) % 3].cardNumber}
+          />
         </Animated.View>
         <Animated.View 
+          {...styles.cardStyle}
           style={{
-          width: 300, height: 150,
-          position: 'absolute',
-          zIndex: 2,
-          bottom: 20,
           backgroundColor: colors[(this.state.currentIndex + 1) % 3],
           zIndex: 2,
           bottom: this.state.cardsStackedAnim.interpolate({
@@ -81,14 +103,18 @@ class Card extends Component {
           opacity: this.state.cardsStackedAnim.interpolate({
             inputRange: [ 0, 1 ], outputRange: [ 0.6, 1 ] }),
         }}>
+          <View style={styles.chipContainer}>
+            <Image source={qrCode} resizeMode="stretch" style={styles.chip} />
+          </View>
+          <CardData 
+            cardHolderName={cardHolder[(this.state.currentIndex + 1) % 3].name} 
+            cardHolderNumber={cardHolder[(this.state.currentIndex + 1) % 3].cardNumber}
+          />
         </Animated.View>
         <Animated.View
+          {...styles.cardStyle}
           { ...this.cardsPanResponder.panHandlers }
           style={{
-          width: 300, height: 150,
-          position: 'absolute',
-          zIndex: 3,
-          bottom: 0,
           backgroundColor: colors[this.state.currentIndex % 3],
           zIndex: this.state.cardsStackedAnim.interpolate({
             inputRange: [ 0, 0.5, 1 ], outputRange: [ 3, 2, 0 ] }),
@@ -102,16 +128,50 @@ class Card extends Component {
               inputRange: [ 0, 1 ], outputRange: [ 1, 0.80 ] }) },
           ],
         }}>
-      </Animated.View>
+          <View style={styles.chipContainer}>
+            <Image source={qrCode} resizeMode="stretch" style={styles.chip} />
+          </View>
+          <CardData 
+            cardHolderName={cardHolder[this.state.currentIndex % 3].name} 
+            cardHolderNumber={cardHolder[this.state.currentIndex % 3].cardNumber}
+          />
+        </Animated.View>
       </View>
     )
-    
     }
 }
 
 const styles = StyleSheet.create({
   cardContainer: {
     alignItems: "center"
+  },
+
+  cardStyle: {
+    width: 300, 
+    height: 150,
+    position: "absolute",
+    borderRadius: 10,
+    justifyContent: "flex-end",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.36,
+    shadowRadius: 6.68,
+    elevation: 5
+  },
+
+  chipContainer: {
+    alignItems: "flex-end",
+    justifyContent: "center",
+    height: 100,
+    padding: 20
+  },
+
+  chip: {
+    height: 50,
+    width: 70
   }
 })
 
