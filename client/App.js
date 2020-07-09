@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-//Components
+//Component
 import Card from './components/Card.js';
 
 export default function App() {

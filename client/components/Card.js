@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import { Animated, View, StyleSheet, PanResponder, Image} from "react-native";
 
+//Card component
 import CardData from './CardData';
 
+//Image
 import qrCode from '../assets/qr-code.png';
 
 const colors = ['#5C6BC0', '#009688', '#f85959'];
@@ -46,15 +48,17 @@ class Card extends Component {
          );
     },
     onPanResponderTerminationRequest: () => false,
-    onPanResponderRelease: ( event, gestureState ) => {
+    onPanResponderRelease: () => {
       Animated.timing( this.state.cardsPan, {
         toValue: 0,
         duration: 300,
+        useNativeDriver: false,
       } ).start();
 
       Animated.timing( this.state.cardsStackedAnim, {
         toValue: 1,
         duration: 300,
+        useNativeDriver: false,
       } ).start( () => {
         this.state.cardsStackedAnim.setValue( 0 );
         this.setState({
@@ -170,7 +174,7 @@ const styles = StyleSheet.create({
   },
 
   chip: {
-    height: 50,
+    height: 55,
     width: 70
   }
 })
